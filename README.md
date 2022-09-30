@@ -15,7 +15,7 @@ data struct must be between two pair of square brackets.
 		"city": "Los Santos"
 	}
 ]
-###### Example of inserting one data:
+###### Example of inserting list of data:
 [
 	{
 		"year": 1999,
@@ -48,3 +48,14 @@ data struct must be between two pair of square brackets.
 		"city": "Los Santos"
 	}
 ]
+#### DELETE-DeleteRecord handler function
+simply give id of witch struct you want to delete by passing it to url and make a delete request
+this method will soft delete the data
+###### Example of deleting a data:
+localhost:8080/gta/id
+
+#### DELETE-DeleteAllRecords handler function
+running this handler will run delete method for each record
+this method will soft delete all the data
+###### Example of deleting a data:
+localhost:8080/gta

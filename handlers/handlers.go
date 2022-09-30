@@ -21,8 +21,7 @@ type ErrorMassage struct {
 	Massage  string `json:"massage,omitempty"`
 	NORecord int    `json:"effected records,omitempty"`
 	Err      error  `json:"error,omitempty"`
-	//Data     ReleaseList `json:"data,omitempty"`
-	ID string `json:"id,omitempty"`
+	ID       string `json:"id,omitempty"`
 }
 
 var (
@@ -128,4 +127,25 @@ func GetSingle(c echo.Context) error {
 		}
 	}
 	return c.JSON(http.StatusOK, data)
+}
+
+// DeleteAllRecords deletes all records in table ReliseList
+func DeleteAllRecords(c echo.Context) error {
+	var fullList []ReleaseList
+	findResult := db.Find(&fullList)
+	if findResult.Error != nil {
+		return findResult.Error
+	}
+	var result *gorm.DB
+	var counter int
+	for _, data := range fullList {
+		result = db.Delete(&ReleaseList{}, "id = ?", data.ID)
+		if result.Error != nil {
+			log.Errorf("Unable to delete record with id %v", data.ID)
+		}
+		if result.Error == nil {
+			counter = counter + 1
+		}
+	}
+	return c.JSON(http.StatusOK, ErrorMassage{Massage: "All of records deleted", NORecord: counter})
 }
