@@ -1,10 +1,11 @@
 package main
 
 import (
-	"gormGtaAPI/handlers"
-	"log"
+	"gormGtaAPI/routers"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/gommon/log"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -24,12 +25,8 @@ func init() {
 func main() {
 	e := echo.New()
 
-	e.GET("/gta", handlers.GetData)
-	e.POST("/gta", handlers.InsertData)
-	e.PUT("/gta/:id", handlers.UpdateData)
-	e.DELETE("/gta/:id", handlers.DeleteRecord)
-	e.GET("/gta/:id", handlers.GetSingle)
-	e.DELETE("/gta", handlers.DeleteAllRecords)
+	e.Pre(middleware.RemoveTrailingSlash())
+	routers.Register(e)
 
 	e.Logger.Fatal(e.Start(":8080"))
 
