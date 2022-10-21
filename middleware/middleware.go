@@ -7,7 +7,7 @@ import (
 
 func PrintMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		log.Printf("Middleware triggerd URL is: %v", c.Request().URL)
+		log.Printf("Middleware triggerd, URL is: %v", c.Request().URL)
 		return next(c)
 	}
 }
